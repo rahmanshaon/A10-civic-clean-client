@@ -3,6 +3,8 @@ import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home/Home";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
+import PrivateRoute from "./PrivateRoute";
+import AddIssue from "../pages/AddIssue";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +22,14 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/add-issue",
+        element: (
+          <PrivateRoute>
+            <AddIssue />
+          </PrivateRoute>
+        ),
       },
     ],
   },
