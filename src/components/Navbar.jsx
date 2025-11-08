@@ -1,12 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
 import { HiMenu } from "react-icons/hi";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import CustomNavLink from "./CustomNavLink";
 import logo from "../assets/logo.png";
+import useAuth from "../hooks/useAuth";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
-  const [user, setUser] = useState(null);
-  console.log("Current Navbar user state:", user);
+  const { user, logOut, loading } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logOut()
+      .then(() => {
+        toast.success("Logged out successfully.");
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Logout error:", error);
+        toast.error("Failed to log out.");
+      });
+  };
 
   // public links
   const links = [
@@ -43,7 +57,7 @@ const Navbar = () => {
 
           {/* Logo and Site Name */}
           <Link to="/" className="flex items-center gap-2 text-xl font-bold">
-            <img src={logo} alt="Logo" className="w-10" />
+            <img src={logo} alt="Logo" className="w-14 md:w-18" />
             <span className="text-gradient text-2xl md:text-3xl font-black">
               CivicClean
             </span>
@@ -59,28 +73,69 @@ const Navbar = () => {
 
         {/* Right side (Login / User) */}
         <div className="navbar-end">
-          {user ? (
-            <div className="dropdown dropdown-end">
-              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                <div className="w-10 rounded-full">
-                  {/* <img src="" alt="" /> */}
-                </div>
-              </label>
-              <ul
-                tabIndex={0}
-                className="menu menu-sm dropdown-content mt-3 z-1 p-2 shadow bg-base-100 rounded-box w-52"
-              >
-                <li>
-                  <button>Logout</button>
-                </li>
-              </ul>
-            </div>
-          ) : (
+          {loading ? (
+            <span className="loading loading-bars loading-sm text-blue-500"></span>
+          ) : user ? (
             <>
-              <NavLink to="/login" className="btn btn-gradient mr-2">
+              {/* Desktop: Avatar + Logout button */}
+              <div className="hidden md:flex items-center gap-4">
+                <div
+                  className="w-16 h-16 rounded-full ring ring-blue-500 ring-offset-base-100 ring-offset-2 overflow-hidden"
+                  title={user.displayName || "User"}
+                >
+                  <img
+                    src={
+                      user.photoURL || "https://i.ibb.co.com/wZQG7SwS/user.png"
+                    }
+                    alt={user.displayName}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="btn btn-gradient text-white font-semibold text-lg"
+                >
+                  Logout
+                </button>
+              </div>
+
+              {/* Mobile: Avatar with dropdown */}
+              <div className="dropdown dropdown-end md:hidden">
+                <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                  <div
+                    className="w-10 rounded-full ring ring-blue-500 ring-offset-base-100 ring-offset-2 overflow-hidden"
+                    title={user.displayName || "User"}
+                  >
+                    <img
+                      src={
+                        user.photoURL ||
+                        "https://i.ibb.co.com/wZQG7SwS/user.png"
+                      }
+                      alt={user.displayName}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </label>
+                <ul
+                  tabIndex={0}
+                  className="menu menu-sm dropdown-content mt-3 z-1 p-2 shadow bg-base-100 rounded-box w-52"
+                >
+                  <li>
+                    {/* Attach the logout handler to the button */}
+                    <button onClick={handleLogout} className="btn btn-gradient">
+                      Logout
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </>
+          ) : (
+            // If no user, show Login and Register buttons
+            <>
+              <NavLink to="/login" className="btn btn-gradient font-semibold text-lg mr-3">
                 Login
               </NavLink>
-              <NavLink to="/register" className="btn btn-gradient">
+              <NavLink to="/register" className="btn btn-gradient font-semibold text-lg">
                 Register
               </NavLink>
             </>

@@ -99,7 +99,7 @@ const Register = () => {
                 name="photoURL"
                 placeholder="Photo URL"
                 className="input input-bordered w-full"
-                required
+                // required
               />
             </div>
             <div className="form-control">
