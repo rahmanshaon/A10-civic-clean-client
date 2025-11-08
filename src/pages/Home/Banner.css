@@ -1,0 +1,34 @@
+/* Pagination bullets */
+.swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background: #4364F7;
+  opacity: 1;
+  border: 2px solid #0052D4;
+  box-sizing: border-box;
+}
+
+.swiper-pagination-bullet-active {
+  background: #0052D4;
+  border-color: #fff;
+}
+
+/* Navigation buttons */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #4364F7;
+  transition: color 0.3s;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  color: #0052D4;
+}
+
+/* Hide navigation buttons on mobile devices */
+@media (max-width: 768px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none;
+  }
+}
