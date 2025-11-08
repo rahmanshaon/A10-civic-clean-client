@@ -1,0 +1,50 @@
+[
+  {
+    "_id": "654b1a1a5b6c7d8e9f0a1b2c",
+    "title": "Overflowing Garbage on Road 21",
+    "category": "Garbage",
+    "location": "Mohakhali, Dhaka",
+    "description": "Garbage has not been collected for 5 days and is starting to smell, causing issues for local residents.",
+    "image": "https://i.ibb.co.com/VYdCHSCW/clean.png"
+  },
+  {
+    "_id": "654b1a1a5b6c7d8e9f0a1b2d",
+    "title": "Deep Pothole on Main Street",
+    "category": "Road Damage",
+    "location": "Banani, Dhaka",
+    "description": "A large and dangerous pothole has formed near the intersection, posing a risk to vehicles.",
+    "image": "https://i.ibb.co.com/VYdCHSCW/clean.png"
+  },
+  {
+    "_id": "654b1a1a5b6c7d8e9f0a1b2e",
+    "title": "Broken Streetlight on Park Ave",
+    "category": "Broken Public Property",
+    "location": "Gulshan, Dhaka",
+    "description": "The streetlight at the corner has been out for over a week, making the area very dark and unsafe at night.",
+    "image": "https://i.ibb.co.com/VYdCHSCW/clean.png"
+  },
+  {
+    "_id": "654b1a1a5b6c7d8e9f0a1b2f",
+    "title": "Unfinished Sidewalk Construction",
+    "category": "Illegal Construction",
+    "location": "Dhanmondi, Dhaka",
+    "description": "Construction crew left a sidewalk project unfinished, with rebar and debris creating a hazard.",
+    "image": "https://i.ibb.co.com/VYdCHSCW/clean.png"
+  },
+  {
+    "_id": "654b1a1a5b6c7d8e9f0a1b30",
+    "title": "Illegal Dumping in Alleyway",
+    "category": "Garbage",
+    "location": "Mirpur, Dhaka",
+    "description": "Someone has illegally dumped construction waste and old furniture in the alley behind the market.",
+    "image": "https://i.ibb.co.com/VYdCHSCW/clean.png"
+  },
+  {
+    "_id": "654b1a1a5b6c7d8e9f0a1b31",
+    "title": "Cracked Park Bench",
+    "category": "Broken Public Property",
+    "location": "Uttara, Dhaka",
+    "description": "A wooden bench in the central park is cracked and could be dangerous for people to sit on.",
+    "image": "https://i.ibb.co.com/VYdCHSCW/clean.png"
+  }
+]
