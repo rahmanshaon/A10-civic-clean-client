@@ -12,13 +12,13 @@ const IssueCard = ({ issue }) => {
         />
       </figure>
       <div className="card-body">
-        <div className="flex justify-between items-center flex-wrap gap-2">
+        <div className="flex flex-col justify-between items-center flex-wrap gap-2">
           <h2 className="card-title">{title}</h2>
           <div className="badge badge-secondary h-auto whitespace-normal">
             {category}
           </div>
+          <p className="text-sm text-gray-500">{location}</p>
         </div>
-        <p className="text-sm text-gray-500">{location}</p>
         <p>
           {
             // Truncate the description if it's too long

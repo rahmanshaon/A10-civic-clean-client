@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import IssueCard from "../../components/IssueCard";
+import { Link } from "react-router";
 
 const RecentComplaints = () => {
   const [issues, setIssues] = useState([]);
@@ -26,6 +27,12 @@ const RecentComplaints = () => {
         {issues.map((issue) => (
           <IssueCard key={issue._id} issue={issue} />
         ))}
+      </div>
+
+      <div className="flex justify-center items-center mt-12 mb-16">
+        <Link to="/all-issues" className="btn btn-gradient px-20 py-5 text-lg">
+          View All Issues
+        </Link>
       </div>
     </div>
   );
