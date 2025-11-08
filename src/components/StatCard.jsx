@@ -5,7 +5,7 @@ import { useInView } from "react-intersection-observer";
 const StatCard = ({ icon, title, value, change, gradientClass }) => {
   const { ref, inView } = useInView({
     threshold: 0.3,
-    // triggerOnce: true,
+    triggerOnce: true,
   });
 
   return (
