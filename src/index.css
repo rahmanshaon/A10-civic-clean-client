@@ -2,7 +2,7 @@
 @plugin "daisyui";
 
 .btn-gradient {
-  @apply text-white bg-[linear-gradient(125deg,#0052D4_0%,#4364F7_40%,#6FB1FC_100%)]
+  @apply text-white border-none bg-[linear-gradient(125deg,#0052D4_0%,#4364F7_40%,#6FB1FC_100%)]
   hover:bg-[linear-gradient(125deg,#6FB1FC_0%,#4364F7_50%,#0052D4_100%)]
   hover:scale-105 transition-transform ease-in-out duration-200 shadow-lg;
 }
@@ -12,4 +12,3 @@
   hover:bg-[linear-gradient(125deg,#6FB1FC_0%,#4364F7_50%,#0052D4_100%)]
   bg-clip-text text-transparent transition-all duration-500;
 }
-

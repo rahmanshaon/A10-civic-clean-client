@@ -8,7 +8,6 @@ const RecentComplaints = () => {
     fetch("/issues.json")
       .then((res) => res.json())
       .then((data) => {
-        console.log("Fetched recent issues data:", data);
         setIssues(data);
       });
   }, []);
