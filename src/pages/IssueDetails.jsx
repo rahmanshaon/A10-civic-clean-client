@@ -1,38 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams } from "react-router";
 import Loader from "../components/Loader";
 import useAuth from "../hooks/useAuth";
-import { toast } from "react-toastify";
 import ContributionModal from "../components/ContributionModal";
+import useFetch from "../hooks/useFetch";
 
 const IssueDetails = () => {
   const { issueId } = useParams();
   const { user } = useAuth();
-  const [issue, setIssue] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(true);
-    fetch("/issues.json")
-      .then((res) => res.json())
-      .then((data) => {
-        const currentIssue = data.find((item) => item._id === issueId);
-        console.log(`Found issue for ID ${issueId}:`, currentIssue);
-        setIssue(currentIssue);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching issue details:", error);
-        setLoading(false);
-      });
-  }, [issueId]);
+  const { data: issue, loading, error } = useFetch(`/issues/${issueId}`);
 
   if (loading) {
     return <Loader message="Loading issue details..." />;
   }
 
-  if (!issue) {
-    return <div className="text-center p-10">Issue not found.</div>;
+  if (error || !issue) {
+    return <div className="text-center p-10">Error: Issue not found.</div>;
   }
 
   const { title, category, location, description, image, amount } = issue;
