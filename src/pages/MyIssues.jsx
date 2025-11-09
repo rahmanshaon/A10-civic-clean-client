@@ -1,34 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useAuth from "../hooks/useAuth";
 import Loader from "../components/Loader";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import useFetch from "../hooks/useFetch";
 
 const MyIssues = () => {
   const { user } = useAuth();
-  const [myIssues, setMyIssues] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (user?.email) {
-      setLoading(true);
-      fetch("/issues.json")
-        .then((res) => res.json())
-        .then((data) => {
-          const filteredIssues = data.filter(
-            (issue) => issue.email === user.email
-          );
-          console.log("Filtered issues for this user:", filteredIssues);
-          setMyIssues(filteredIssues);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching my issues:", error);
-          setLoading(false);
-        });
-    } else {
-      setLoading(false);
-    }
-  }, [user]);
+  const endpoint = user?.email ? `/my-issues?email=${user.email}` : null;
+  const { data: myIssues, loading } = useFetch(endpoint);
 
   if (loading) {
     return <Loader />;
