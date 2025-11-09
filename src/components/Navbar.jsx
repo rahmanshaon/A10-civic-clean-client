@@ -5,8 +5,9 @@ import CustomNavLink from "./CustomNavLink";
 import logo from "../assets/logo.png";
 import useAuth from "../hooks/useAuth";
 import { toast } from "react-toastify";
+import { FaMoon, FaSun } from "react-icons/fa";
 
-const Navbar = () => {
+const Navbar = ({ handleToggle, theme }) => {
   const { user, logOut, loading } = useAuth();
   const navigate = useNavigate();
 
@@ -73,6 +74,17 @@ const Navbar = () => {
 
         {/* Right side (Login / User) */}
         <div className="navbar-end">
+          {/* --- Theme Toggle Switch --- */}
+          <label className="swap swap-rotate mr-4">
+            <input
+              type="checkbox"
+              onChange={handleToggle}
+              checked={theme === "dark"}
+            />
+            <FaSun className="swap-on fill-current w-6 h-6" />
+            <FaMoon className="swap-off fill-current w-6 h-6" />
+          </label>
+
           {loading ? (
             <span className="loading loading-bars loading-sm text-blue-500"></span>
           ) : user ? (
@@ -132,10 +144,16 @@ const Navbar = () => {
           ) : (
             // If no user, show Login and Register buttons
             <>
-              <NavLink to="/login" className="btn btn-gradient font-semibold text-lg mr-3">
+              <NavLink
+                to="/login"
+                className="btn btn-gradient font-semibold text-lg mr-3"
+              >
                 Login
               </NavLink>
-              <NavLink to="/register" className="btn btn-gradient font-semibold text-lg">
+              <NavLink
+                to="/register"
+                className="btn btn-gradient font-semibold text-lg"
+              >
                 Register
               </NavLink>
             </>

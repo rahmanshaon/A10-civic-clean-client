@@ -7,7 +7,8 @@
     "description": "Garbage has not been collected for 5 days and is starting to smell, causing issues for local residents.",
     "image": "https://i.ibb.co.com/VYdCHSCW/clean.png",
     "amount": 250,
-    "email": "testuser@example.com"
+    "email": "testuser@example.com",
+    "status": "ongoing"
   },
   {
     "_id": "654b1a1a5b6c7d8e9f0a1b2d",
@@ -17,7 +18,8 @@
     "description": "A large and dangerous pothole has formed near the intersection, posing a risk to vehicles.",
     "image": "https://i.ibb.co.com/VYdCHSCW/clean.png",
     "amount": 500,
-    "email": "alexnahin6@gmail.com"
+    "email": "alexnahin6@gmail.com",
+    "status": "ended"
   },
   {
     "_id": "654b1a1a5b6c7d8e9f0a1b2e",
@@ -27,7 +29,8 @@
     "description": "The streetlight at the corner has been out for over a week, making the area very dark and unsafe at night.",
     "image": "https://i.ibb.co.com/VYdCHSCW/clean.png",
     "amount": 150,
-    "email": "testuser@example.com"
+    "email": "testuser@example.com",
+    "status": "ongoing"
   },
   {
     "_id": "654b1a1a5b6c7d8e9f0a1b2f",
@@ -37,7 +40,8 @@
     "description": "Construction crew left a sidewalk project unfinished, with rebar and debris creating a hazard.",
     "image": "https://i.ibb.co.com/VYdCHSCW/clean.png",
     "amount": 1200,
-    "email": "alexnahin6@gmail.com"
+    "email": "alexnahin6@gmail.com",
+    "status": "ongoing"
   },
   {
     "_id": "654b1a1a5b6c7d8e9f0a1b30",
@@ -47,7 +51,8 @@
     "description": "Someone has illegally dumped construction waste and old furniture in the alley behind the market.",
     "image": "https://i.ibb.co.com/VYdCHSCW/clean.png",
     "amount": 300,
-    "email": "thirduser@example.com"
+    "email": "thirduser@example.com",
+    "status": "ended"
   },
   {
     "_id": "654b1a1a5b6c7d8e9f0a1b31",
@@ -57,6 +62,7 @@
     "description": "A wooden bench in the central park is cracked and could be dangerous for people to sit on.",
     "image": "https://i.ibb.co.com/VYdCHSCW/clean.png",
     "amount": 80,
-    "email": "testuser@example.com"
+    "email": "testuser@example.com",
+    "status": "ongoing"
   }
 ]
