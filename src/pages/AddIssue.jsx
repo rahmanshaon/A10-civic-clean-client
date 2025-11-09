@@ -1,9 +1,12 @@
 import React from "react";
 import useAuth from "../hooks/useAuth";
 import { toast } from "react-toastify";
+import axios from "axios";
+import { useNavigate } from "react-router";
 
 const AddIssue = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const handleAddIssue = (event) => {
     event.preventDefault();
@@ -16,7 +19,7 @@ const AddIssue = () => {
     const image = form.image.value;
     const amount = form.amount.value;
 
-    // Create the new issue object
+    // Send data to the server
     const newIssue = {
       title,
       category,
@@ -27,12 +30,24 @@ const AddIssue = () => {
       status: "ongoing",
       date: new Date(),
       email: user.email,
+      reporterName: user.displayName,
+      reporterPhoto: user.photoURL,
     };
 
-    console.log("New Issue Data to be sent to server:", newIssue);
-
-    toast.success("Issue reported successfully!");
-    form.reset();
+    axios
+      .post("http://localhost:3000/issues", newIssue)
+      .then((res) => {
+        console.log("Server response after posting:", res.data);
+        if (res.data.insertedId) {
+          toast.success("Issue reported successfully!");
+          form.reset();
+          navigate("/all-issues");
+        }
+      })
+      .catch((error) => {
+        console.error("Error posting new issue:", error);
+        toast.error("Failed to report issue. Please try again.");
+      });
   };
 
   return (
@@ -48,7 +63,6 @@ const AddIssue = () => {
         </div>
 
         <form onSubmit={handleAddIssue} className="flex flex-col gap-6">
-
           {/* Form Row 1: Title and Category */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="form-control">
