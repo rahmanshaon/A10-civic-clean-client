@@ -1,30 +1,16 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Loader from "../components/Loader";
 import IssueCard from "../components/IssueCard";
+import useFetch from "../hooks/useFetch";
 
 const AllIssues = () => {
-  const [issues, setIssues] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { data: issues, loading, error } = useFetch("/issues");
 
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
 
-  useEffect(() => {
-    setLoading(true);
-    fetch("/issues.json")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Fetched all issues data:", data);
-        setIssues(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching issues:", error);
-        setLoading(false);
-      });
-  }, []);
-
   const filteredIssues = useMemo(() => {
+    if (!issues) return [];
     return issues.filter((issue) => {
       const categoryMatch =
         categoryFilter === "All" || issue.category === categoryFilter;
@@ -37,6 +23,13 @@ const AllIssues = () => {
   if (loading) {
     return <Loader message="Loading all issues..." />;
   }
+
+  if (error)
+    return (
+      <div className="text-center p-10 text-red-500">
+        Error: Could not fetch issues. Please try again later.
+      </div>
+    );
 
   return (
     <div className="p-4 md:p-10">
@@ -84,7 +77,9 @@ const AllIssues = () => {
       {/* Display the filtered issues */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
         {filteredIssues.length > 0 ? (
-          filteredIssues.map(issue => <IssueCard key={issue._id} issue={issue} />)
+          filteredIssues.map((issue) => (
+            <IssueCard key={issue._id} issue={issue} />
+          ))
         ) : (
           <p className="col-span-3 text-center text-lg text-gray-500">
             No issues found matching your criteria.
