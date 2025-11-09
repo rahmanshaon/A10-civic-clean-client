@@ -1,17 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import IssueCard from "../../components/IssueCard";
 import { Link } from "react-router";
+import useFetch from "../../hooks/useFetch";
+import Loader from "../../components/Loader";
 
 const RecentComplaints = () => {
-  const [issues, setIssues] = useState([]);
-
-  useEffect(() => {
-    fetch("/issues.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setIssues(data);
-      });
-  }, []);
+  const { data: issues, loading } = useFetch("/issues/recent");
 
   return (
     <div className="container mx-auto my-12 px-4">
@@ -23,11 +17,15 @@ const RecentComplaints = () => {
       </div>
 
       {/* Issues Card Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {issues.map((issue) => (
-          <IssueCard key={issue._id} issue={issue} />
-        ))}
-      </div>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {issues.map((issue) => (
+            <IssueCard key={issue._id} issue={issue} />
+          ))}
+        </div>
+      )}
 
       <div className="flex justify-center items-center mt-12 mb-16">
         <Link to="/all-issues" className="btn btn-gradient px-20 py-5 text-lg">

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import Loader from "../components/Loader";
 import IssueCard from "../components/IssueCard";
 import useFetch from "../hooks/useFetch";
