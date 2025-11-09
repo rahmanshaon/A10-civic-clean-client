@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import { toast } from "react-toastify";
 
@@ -21,10 +22,19 @@ const ContributionModal = ({ issue, user }) => {
       date: new Date(),
     };
 
-    console.log("New Contribution Data:", newContribution);
-    toast.success("Thank you for your contribution!");
-    document.getElementById("contribution_modal").close();
-    form.reset();
+    axios
+      .post("http://localhost:3000/contributions", newContribution)
+      .then((res) => {
+        if (res.data.insertedId) {
+          toast.success("Thank you for your contribution!");
+          document.getElementById("contribution_modal").close();
+          form.reset();
+        }
+      })
+      .catch((error) => {
+        console.error("Error posting contribution:", error);
+        toast.error("Contribution failed. Please try again.");
+      });
   };
 
   return (
