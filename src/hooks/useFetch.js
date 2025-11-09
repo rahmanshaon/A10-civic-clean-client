@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import axiosSecure from "../api/axiosSecure";
 
@@ -7,29 +7,28 @@ const useFetch = (endpoint) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+  const fetchData = useCallback(async () => {
     if (endpoint) {
-      const fetchData = async () => {
-        setLoading(true);
-        try {
-          const response = await axiosSecure.get(endpoint);
-          console.log(`Data fetched from ${endpoint}:`, response.data);
-          setData(response.data);
-        } catch (err) {
-          console.error(`Error fetching from ${endpoint}:`, err);
-          setError(err);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchData();
+      setLoading(true);
+      try {
+        const response = await axiosSecure.get(endpoint);
+        setData(response.data);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
     } else {
       setLoading(false);
+      setData([]);
     }
   }, [endpoint]);
 
-  return { data, loading, error };
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  return { data, loading, error, setData, mutate: fetchData };
 };
 
 export default useFetch;

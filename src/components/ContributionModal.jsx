@@ -21,7 +21,6 @@ const ContributionModal = ({ issue, user, onSuccess }) => {
       photoURL: user.photoURL,
       phone,
       address,
-      date: new Date(),
     };
 
     axiosSecure

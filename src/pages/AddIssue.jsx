@@ -29,7 +29,6 @@ const AddIssue = () => {
       image,
       amount: parseFloat(amount),
       status: "ongoing",
-      date: new Date(),
       email: user.email,
       reporterName: user.displayName,
       reporterPhoto: user.photoURL,
