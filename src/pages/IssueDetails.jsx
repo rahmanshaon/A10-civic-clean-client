@@ -1,15 +1,43 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Loader from "../components/Loader";
 import useAuth from "../hooks/useAuth";
 import ContributionModal from "../components/ContributionModal";
 import useFetch from "../hooks/useFetch";
 import DataNotFound from "../components/DataNotFound";
+import axiosSecure from "../api/axiosSecure";
+import ContributorsSection from "../components/ContributorsSection";
+import { toast } from "react-toastify";
 
 const IssueDetails = () => {
   const { issueId } = useParams();
   const { user } = useAuth();
   const { data: issue, loading, error } = useFetch(`/issues/${issueId}`);
+
+  const [contributors, setContributors] = useState([]);
+  const [isContributorsLoading, setIsContributorsLoading] = useState(true);
+
+  const fetchContributors = useCallback(async () => {
+    if (!issueId) return;
+    setIsContributorsLoading(true);
+    try {
+      const res = await axiosSecure.get(`/contributions/${issueId}`);
+      setContributors(res.data);
+    } catch (err) {
+      console.error("Could not fetch contributors", err);
+    } finally {
+      setIsContributorsLoading(false);
+    }
+  }, [issueId]);
+
+  useEffect(() => {
+    fetchContributors();
+  }, [fetchContributors]);
+
+  const handleSuccessfulContribution = () => {
+    toast.success("Thank you for your contribution!");
+    fetchContributors();
+  };
 
   if (loading) {
     return <Loader message="Loading issue details..." />;
@@ -69,8 +97,21 @@ const IssueDetails = () => {
         </div>
       </div>
 
+      {/* --- Contributors Section --- */}
+      {isContributorsLoading ? (
+        <div className="flex flex-col justify-center items-center h-[15vh]">
+          <span className="loading loading-bars loading-sm text-blue-500"></span>
+        </div>
+      ) : (
+        <ContributorsSection contributors={contributors} />
+      )}
+
       {/* ===== CONTRIBUTION MODAL ===== */}
-      <ContributionModal issue={issue} user={user} />
+      <ContributionModal
+        issue={issue}
+        user={user}
+        onSuccess={handleSuccessfulContribution}
+      />
     </div>
   );
 };

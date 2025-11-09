@@ -3,7 +3,7 @@ import React from "react";
 import { toast } from "react-toastify";
 import axiosSecure from "../api/axiosSecure";
 
-const ContributionModal = ({ issue, user }) => {
+const ContributionModal = ({ issue, user, onSuccess }) => {
   const handleContributionSubmit = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -18,6 +18,7 @@ const ContributionModal = ({ issue, user }) => {
       amount: parseFloat(amount),
       name: user.displayName,
       email: user.email,
+      photoURL: user.photoURL,
       phone,
       address,
       date: new Date(),
@@ -27,7 +28,9 @@ const ContributionModal = ({ issue, user }) => {
       .post("/contributions", newContribution)
       .then((res) => {
         if (res.data.insertedId) {
-          toast.success("Thank you for your contribution!");
+          if (onSuccess) {
+            onSuccess();
+          }
           document.getElementById("contribution_modal").close();
           form.reset();
         }
