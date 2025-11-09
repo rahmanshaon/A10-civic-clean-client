@@ -4,6 +4,7 @@ import Loader from "../components/Loader";
 import useAuth from "../hooks/useAuth";
 import ContributionModal from "../components/ContributionModal";
 import useFetch from "../hooks/useFetch";
+import DataNotFound from "../components/DataNotFound";
 
 const IssueDetails = () => {
   const { issueId } = useParams();
@@ -15,7 +16,7 @@ const IssueDetails = () => {
   }
 
   if (error || !issue) {
-    return <div className="text-center p-10">Error: Issue not found.</div>;
+    return <DataNotFound />;
   }
 
   const { title, category, location, description, image, amount } = issue;

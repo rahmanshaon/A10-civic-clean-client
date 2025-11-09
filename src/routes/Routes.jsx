@@ -9,11 +9,13 @@ import AllIssues from "../pages/AllIssues";
 import IssueDetails from "../pages/IssueDetails";
 import MyIssues from "../pages/MyIssues";
 import MyContribution from "../pages/MyContribution";
+import NotFound from "../pages/NotFound";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    errorElement: <NotFound />,
     children: [
       {
         path: "/",
@@ -62,6 +64,10 @@ const router = createBrowserRouter([
             <MyContribution />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },

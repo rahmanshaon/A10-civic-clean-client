@@ -10,9 +10,9 @@ const Home = () => {
   return (
     <div>
       <Banner />
+      <CommunityStats />
       <CategorySection />
       <RecentComplaints />
-      <CommunityStats />
       <VolunteerCTA />
       <NewsletterCTA/>
     </div>
