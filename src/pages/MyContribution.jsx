@@ -1,29 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useAuth from "../hooks/useAuth";
 import Loader from "../components/Loader";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import useFetch from "../hooks/useFetch";
 
 const MyContribution = () => {
   const { user } = useAuth();
-  const [myContributions, setMyContributions] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (user?.email) {
-      setLoading(true);
-      fetch("/contributions.json")
-        .then((res) => res.json())
-        .then((data) => {
-          console.log("Fetched my contribution data:", data);
-          const filtered = data.filter((c) => c.email === user.email);
-          setMyContributions(filtered);
-          setLoading(false);
-        });
-    } else {
-      setLoading(false);
-    }
-  }, [user]);
+  const endpoint = user?.email ? `/my-contributions?email=${user.email}` : null;
+  const { data: myContributions, loading } = useFetch(endpoint);
 
   // --- PDF Generation Function ---
   const handleDownloadReport = (contribution) => {
