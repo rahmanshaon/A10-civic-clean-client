@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Loader from "../components/Loader";
+import useAuth from "../hooks/useAuth";
+import { toast } from "react-toastify";
+import ContributionModal from "../components/ContributionModal";
 
 const IssueDetails = () => {
   const { issueId } = useParams();
+  const { user } = useAuth();
   const [issue, setIssue] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -31,7 +35,7 @@ const IssueDetails = () => {
     return <div className="text-center p-10">Issue not found.</div>;
   }
 
-  const { title, category, location, description, image, date, amount } = issue;
+  const { title, category, location, description, image, amount } = issue;
 
   return (
     <div className="min-h-screen p-4 sm:p-6 lg:p-8">
@@ -70,11 +74,19 @@ const IssueDetails = () => {
 
         {/* CTA Section */}
         <div className="text-center mt-10">
-          <button className="btn btn-gradient w-full sm:w-auto sm:btn-wide">
+          <button
+            onClick={() =>
+              document.getElementById("contribution_modal").showModal()
+            }
+            className="btn btn-gradient w-full"
+          >
             Pay Clean-Up Contribution
           </button>
         </div>
       </div>
+
+      {/* ===== CONTRIBUTION MODAL ===== */}
+      <ContributionModal issue={issue} user={user} />
     </div>
   );
 };
