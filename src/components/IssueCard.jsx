@@ -1,7 +1,8 @@
 import React from "react";
+import { Link } from "react-router";
 
 const IssueCard = ({ issue }) => {
-  const { title, description, category, location, image } = issue;
+  const { _id, title, description, category, location, image } = issue;
   return (
     <div className="card card-compact bg-base-100 shadow-xl">
       <figure className="h-56">
@@ -28,7 +29,9 @@ const IssueCard = ({ issue }) => {
           }
         </p>
         <div className="card-actions mt-3">
-          <button className="btn btn-gradient w-full">See Details</button>
+          <Link to={`/issue/${_id}`} className="btn btn-gradient w-full">
+            See Details
+          </Link>
         </div>
       </div>
     </div>
