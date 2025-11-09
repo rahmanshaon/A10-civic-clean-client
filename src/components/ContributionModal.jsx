@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { toast } from "react-toastify";
+import axiosSecure from "../api/axiosSecure";
 
 const ContributionModal = ({ issue, user }) => {
   const handleContributionSubmit = (event) => {
@@ -22,8 +23,8 @@ const ContributionModal = ({ issue, user }) => {
       date: new Date(),
     };
 
-    axios
-      .post("http://localhost:3000/contributions", newContribution)
+    axiosSecure
+      .post("/contributions", newContribution)
       .then((res) => {
         if (res.data.insertedId) {
           toast.success("Thank you for your contribution!");

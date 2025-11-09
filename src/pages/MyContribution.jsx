@@ -62,7 +62,7 @@ const MyContribution = () => {
     );
 
     // --- Save the PDF ---
-    doc.save(`CleanCommunity-Receipt-${contribution._id}.pdf`);
+    doc.save(`CivicClean-Receipt-${contribution._id}.pdf`);
   };
 
   if (loading) return <Loader />;

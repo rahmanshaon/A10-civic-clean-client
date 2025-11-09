@@ -3,6 +3,7 @@ import useAuth from "../hooks/useAuth";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import axiosSecure from "../api/axiosSecure";
 
 const AddIssue = () => {
   const { user } = useAuth();
@@ -34,8 +35,8 @@ const AddIssue = () => {
       reporterPhoto: user.photoURL,
     };
 
-    axios
-      .post("http://localhost:3000/issues", newIssue)
+    axiosSecure
+      .post("/issues", newIssue)
       .then((res) => {
         console.log("Server response after posting:", res.data);
         if (res.data.insertedId) {
