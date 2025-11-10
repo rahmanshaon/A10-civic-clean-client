@@ -46,15 +46,13 @@ const AddIssue = () => {
     axiosSecure
       .post("/issues", newIssue)
       .then((res) => {
-        console.log("Server response after posting:", res.data);
         if (res.data.insertedId) {
           toast.success("Issue reported successfully!");
           form.reset();
           navigate("/all-issues");
         }
       })
-      .catch((error) => {
-        console.error("Error posting new issue:", error);
+      .catch(() => {
         toast.error("Failed to report issue. Please try again.");
       });
   };

@@ -35,7 +35,6 @@ const ContributionModal = ({ issue, user, onSuccess }) => {
         }
       })
       .catch((error) => {
-        console.error("Error posting contribution:", error);
         toast.error("Contribution failed. Please try again.");
       });
   };

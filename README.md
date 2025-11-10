@@ -1,16 +1,56 @@
-# React + Vite
+## CivicClean - Community Issue Reporting Portal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+CivicClean is a full-stack MERN application to empower communities by providing a platform to report, track, and resolve local environmental and cleanliness issues. From reporting overflowing garbage bins to contributing to cleanup funds, this application provides a complete, interactive, and modern user experience.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Key Features
 
-## React Compiler
+### Core Functionality
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Issue Reporting (CRUD):** Authenticated users can create, view (with filtering), update, and delete their own issues.
+- **Secure Authentication:** Firebase Email/Password + Google login, with server-side token verification for protected actions.
+- **Contribution System:** Users can contribute funds to issues and view their personal contribution history.
+- **PDF Receipt Downloads:** Each contribution can be exported as a formatted PDF using jsPDF + jspdf-autotable.
 
-## Expanding the ESLint configuration
+### User Experience
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Smooth Animations:** Lottie and AOS provide interactive and scroll-based animations.
+- **Animated Statistics:** Homepage counters animate on scroll using CountUp + Intersection Observer.
+- **Dark/Light Mode:** Theme toggle with preference saved to localStorage.
+- **Instant UI Feedback:** Real-time UI updates and confirmations without page reloads.
+- **User-Friendly Alerts:** SweetAlert2 for confirmations, React Toastify for notifications.
+
+### Architecture & Security
+
+- **Server-Side Token Validation:** Firebase Admin middleware secures all write operations.
+- **Centralized Data Fetching:** Axios interceptors handle authenticated requests; custom hooks manage loading state.
+- **Consistent Data Timestamps:** Dates are generated on the server for reliable sorting and activity logs.
+
+---
+
+## Tech Stack
+
+### Frontend
+
+- **React 19** - Component-based UI
+- **React Router** - Client-side routing
+- **TailwindCSS** - Utility-first styling with Vite integration
+- **Firebase (Auth)** - Email/Password & Google authentication
+- **Axios** - HTTP requests with interceptors
+- **React Toastify & SweetAlert2** - Alerts and notifications
+- **jsPDF + jsPDF-AutoTable** - PDF receipt generation
+- **AOS & Lottie React** - Animations and motion effects
+- **Swiper** - Interactive sliders and carousels
+- **Date-fns** - Date formatting utilities
+- **React CountUp & React Intersection Observer** - Statistic animations and scroll-based triggers
+- **React Icons** - Iconography
+
+### Backend
+
+- **Node js** - Server runtime
+- **Express js** - RESTful API framework
+- **MongoDB / MongoDB Atlas** - Database and cloud storage
+- **Firebase Admin SDK** - Secure token verification & authorization
+- **CORS** - Cross-origin request handling
+- **dotenv** - Environment variable management

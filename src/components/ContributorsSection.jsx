@@ -45,7 +45,7 @@ const ContributorsSection = ({ contributors, isLoading }) => {
             </div>
             <div>
               <div className="font-bold text-base-content">{c.name}</div>
-              <p className="text-lg font-semibold text-accent">${c.amount}</p>
+              <p className="text-lg font-semibold text-blue-500">${c.amount}</p>
             </div>
           </div>
         ))}

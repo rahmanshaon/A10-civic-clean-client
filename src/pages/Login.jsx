@@ -15,7 +15,6 @@ const Login = () => {
   const location = useLocation();
 
   const from = location.state?.from?.pathname || "/";
-  console.log("User will be redirected to:", from);
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -23,16 +22,12 @@ const Login = () => {
     const email = form.email.value;
     const password = form.password.value;
 
-    console.log("Attempting to log in with:", { email });
-
     signIn(email, password)
       .then((result) => {
-        console.log("Login successful for user:", result.user);
         toast.success("Login Successful!");
         navigate(from, { replace: true });
       })
-      .catch((error) => {
-        console.error("Login error:", error);
+      .catch(() => {
         toast.error("Invalid email or password. Please try again.");
       });
   };
@@ -40,12 +35,10 @@ const Login = () => {
   const handleGoogleSignIn = () => {
     googleSignIn()
       .then((result) => {
-        console.log("Google Sign-In successful:", result.user);
         toast.success(`Welcome back, ${result.user.displayName}!`);
         navigate(from, { replace: true });
       })
-      .catch((error) => {
-        console.error("Google Sign-In error:", error);
+      .catch(() => {
         toast.error("Google Sign-In failed. Please try again.");
       });
   };

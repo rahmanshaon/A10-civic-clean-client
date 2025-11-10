@@ -52,7 +52,6 @@ const UpdateIssueModal = ({ editingIssue, onSuccess, onClose }) => {
       })
       .catch((err) => {
         toast.error("Update failed. Please try again.");
-        console.error("Update error:", err);
       });
   };
 

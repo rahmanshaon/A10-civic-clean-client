@@ -17,7 +17,6 @@ const MyContribution = () => {
 
   // --- PDF Generation Function ---
   const handleDownloadReport = (contribution) => {
-    console.log("Generating PDF for:", contribution);
 
     const doc = new jsPDF();
 

@@ -27,8 +27,6 @@ const IssueDetails = () => {
     try {
       const res = await axiosSecure.get(`/contributions/${issueId}`);
       setContributors(res.data);
-    } catch (err) {
-      console.error("Could not fetch contributors", err);
     } finally {
       setIsContributorsLoading(false);
     }

@@ -21,8 +21,6 @@ const Register = () => {
     const email = form.email.value;
     const password = form.password.value;
 
-    console.log("Registering with:", { name, photoURL, email, password });
-
     // --- Password Validation ---
     if (password.length < 6) {
       toast.error("Password must be at least 6 characters long.");
@@ -36,25 +34,28 @@ const Register = () => {
       toast.error("Password must contain at least one lowercase letter.");
       return;
     }
+    if (!/[0-9]/.test(password)) {
+      toast.error("Password must contain at least one number");
+    }
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      toast.error("Password must include at least one special character");
+      return;
+    }
 
     // --- Create User with Firebase ---
     createUser(email, password)
       .then((result) => {
-        console.log("User created successfully:", result.user);
         // Now update the profile
         updateUserProfile(name, photoURL)
           .then(() => {
-            console.log("Profile updated successfully.");
             toast.success(`Welcome, ${name}! Your account has been created.`);
             navigate("/");
           })
           .catch((error) => {
-            console.error("Profile update error:", error);
             toast.error("Could not set profile information.");
           });
       })
       .catch((error) => {
-        console.error("User creation error:", error);
         toast.error(error.message);
       });
   };
@@ -62,12 +63,10 @@ const Register = () => {
   const handleGoogleSignIn = () => {
     googleSignIn()
       .then((result) => {
-        console.log("Google Sign-In successful:", result.user);
         toast.success(`Welcome, ${result.user.displayName}!`);
         navigate("/");
       })
-      .catch((error) => {
-        console.error("Google Sign-In error:", error);
+      .catch(() => {
         toast.error("Google Sign-In failed. Please try again.");
       });
   };
