@@ -48,7 +48,9 @@ const IssueCard = ({ issue }) => {
         </p>
 
         <div className="mt-1">
-          <p className="text-xl font-bold text-gradient">${amount}</p>
+          <p className="text-lg font-bold text-base-content/80">
+            Budgets Amount: <span className="text-gradient">${amount}</span>
+          </p>
         </div>
 
         <div className="card-actions mt-4">
