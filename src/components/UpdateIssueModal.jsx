@@ -1,13 +1,20 @@
 import React from "react";
 import axiosSecure from "../api/axiosSecure";
 import { toast } from "react-toastify";
+import {
+  FaDollarSign,
+  FaImage,
+  FaMapMarkerAlt,
+  FaSave,
+  FaTh,
+} from "react-icons/fa";
 
-const UpdateIssueModal = ({ editingIssue, onSuccess }) => {
+const UpdateIssueModal = ({ editingIssue, onSuccess, onClose }) => {
   if (!editingIssue) {
     return (
       <dialog id="update_modal" className="modal">
-        <div className="modal-box">
-          <p>Loading...</p>
+        <div className="modal-box flex justify-center items-center h-48">
+          <span className="loading loading-spinner loading-lg"></span>
         </div>
       </dialog>
     );
@@ -52,19 +59,22 @@ const UpdateIssueModal = ({ editingIssue, onSuccess }) => {
   return (
     <dialog id="update_modal" className="modal modal-middle">
       <div className="modal-box max-w-2xl">
-        <form method="dialog">
-          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+        <form method="dialog" onSubmit={onClose}>
+          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 z-10">
             ✕
           </button>
         </form>
 
-        <h3 className="font-bold text-xl">Update Issue Details</h3>
-        <p className="py-2 text-sm text-gray-500 border-b mb-4">
+        <h3 className="font-bold text-2xl text-base-content">
+          Update Issue Details
+        </h3>
+        <p className="py-2 text-sm text-base-content/70">
           Now editing:{" "}
-          <span className="font-semibold text-primary">
+          <span className="font-semibold text-gradient">
             {editingIssue.title}
           </span>
         </p>
+        <div className="divider mt-2 mb-4"></div>
 
         <form
           key={editingIssue._id}
@@ -76,13 +86,16 @@ const UpdateIssueModal = ({ editingIssue, onSuccess }) => {
             <label className="label">
               <span className="label-text">Title</span>
             </label>
-            <input
-              type="text"
-              name="title"
-              defaultValue={editingIssue.title}
-              className="input input-bordered w-full"
-              required
-            />
+            <div className="relative">
+              <FaTh className="absolute top-1/2 left-3 -translate-y-1/2 text-base-content/40 z-10" />
+              <input
+                type="text"
+                name="title"
+                defaultValue={editingIssue.title}
+                className="input input-bordered w-full pl-10"
+                required
+              />
+            </div>
           </div>
 
           {/* Category */}
@@ -108,13 +121,16 @@ const UpdateIssueModal = ({ editingIssue, onSuccess }) => {
             <label className="label">
               <span className="label-text">Location</span>
             </label>
-            <input
-              type="text"
-              name="location"
-              defaultValue={editingIssue.location}
-              className="input input-bordered w-full"
-              required
-            />
+            <div className="relative">
+              <FaMapMarkerAlt className="absolute top-1/2 left-3 -translate-y-1/2 text-base-content/40 z-10" />
+              <input
+                type="text"
+                name="location"
+                defaultValue={editingIssue.location}
+                className="input input-bordered w-full pl-10"
+                required
+              />
+            </div>
           </div>
 
           {/* Image URL */}
@@ -122,13 +138,16 @@ const UpdateIssueModal = ({ editingIssue, onSuccess }) => {
             <label className="label">
               <span className="label-text">Image URL</span>
             </label>
-            <input
-              type="url"
-              name="image"
-              defaultValue={editingIssue.image}
-              className="input input-bordered w-full"
-              required
-            />
+            <div className="relative">
+              <FaImage className="absolute top-1/2 left-3 -translate-y-1/2 text-base-content/40 z-10" />
+              <input
+                type="url"
+                name="image"
+                defaultValue={editingIssue.image}
+                className="input input-bordered w-full pl-10"
+                required
+              />
+            </div>
           </div>
 
           {/* Amount */}
@@ -136,14 +155,17 @@ const UpdateIssueModal = ({ editingIssue, onSuccess }) => {
             <label className="label">
               <span className="label-text">Suggested Budget ($)</span>
             </label>
-            <input
-              type="number"
-              name="amount"
-              min="0"
-              defaultValue={editingIssue.amount}
-              className="input input-bordered w-full"
-              required
-            />
+            <div className="relative">
+              <FaDollarSign className="absolute top-1/2 left-3 -translate-y-1/2 text-base-content/40 z-10" />
+              <input
+                type="number"
+                name="amount"
+                min="0"
+                defaultValue={editingIssue.amount}
+                className="input input-bordered w-full pl-10"
+                required
+              />
+            </div>
           </div>
 
           {/* Status */}
@@ -167,22 +189,28 @@ const UpdateIssueModal = ({ editingIssue, onSuccess }) => {
             <label className="label">
               <span className="label-text">Description</span>
             </label>
-            <textarea
-              name="description"
-              defaultValue={editingIssue.description}
-              className="textarea textarea-bordered h-24 w-full"
-              required
-            ></textarea>
+            <div className="relative">
+              <textarea
+                name="description"
+                defaultValue={editingIssue.description}
+                className="textarea textarea-bordered h-24 w-full pl-5"
+                required
+              ></textarea>
+            </div>
           </div>
 
           {/* Submit Button */}
           <div className="form-control mt-4 sm:col-span-2">
             <button className="btn btn-gradient btn-lg w-full">
+              <FaSave />
               Save Changes
             </button>
           </div>
         </form>
       </div>
+      <form method="dialog" className="modal-backdrop" onSubmit={onClose}>
+        <button>close</button>
+      </form>
     </dialog>
   );
 };

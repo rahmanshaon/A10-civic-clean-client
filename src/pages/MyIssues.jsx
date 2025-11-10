@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import Loader from "../components/Loader";
-import { FaEdit, FaTrash } from "react-icons/fa";
 import useFetch from "../hooks/useFetch";
 import Swal from "sweetalert2";
 import UpdateIssueModal from "../components/UpdateIssueModal";
 import { toast } from "react-toastify";
 import axiosSecure from "../api/axiosSecure";
+import MyIssueCard from "../components/MyIssueCard";
 
 const MyIssues = () => {
   const { user } = useAuth();
@@ -18,6 +18,15 @@ const MyIssues = () => {
     mutate,
   } = useFetch(endpoint);
   const [editingIssue, setEditingIssue] = useState(null);
+
+  useEffect(() => {
+    if (editingIssue) {
+      const modal = document.getElementById("update_modal");
+      if (modal) {
+        modal.showModal();
+      }
+    }
+  }, [editingIssue]);
 
   const handleUpdateSuccess = () => {
     toast.success("Issue updated successfully!");
@@ -44,7 +53,7 @@ const MyIssues = () => {
                 "Your issue has been successfully deleted.",
                 "success"
               );
-              // Optimistically update the UI
+
               setMyIssues(myIssues.filter((issue) => issue._id !== id));
             }
           })
@@ -61,83 +70,59 @@ const MyIssues = () => {
 
   const openUpdateModal = (issue) => {
     setEditingIssue(issue);
-    document.getElementById("update_modal").showModal();
+  };
+
+  const handleCloseModal = () => {
+    setEditingIssue(null);
   };
 
   if (loading) {
-    return <Loader />;
+    return <Loader message="Loading your issues..." />;
   }
 
   return (
-    <div className="bg-base-200 p-4 md:p-10 min-h-screen">
-      <div className="max-w-7xl mx-auto bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-3xl font-bold text-center mb-8">
-          My Reported Issues
-        </h2>
+    <div className="bg-base-200 p-4 py-16 md:p-10 min-h-screen">
+      <div className="container mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl mb:text-4xl font-black text-gradient">
+            My Reported Issues
+          </h2>
+          <p className="text-base text-base-content/70 mt-2">
+            Here you can manage all the issues you've submitted.
+          </p>
+        </div>
 
         {myIssues && myIssues.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="table w-full">
-              <thead>
-                <tr>
-                  <th>Title & Location</th>
-                  <th>Category</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {myIssues.map((issue) => (
-                  <tr key={issue._id}>
-                    <td>
-                      <div className="font-bold">{issue.title}</div>
-                      <div className="text-sm opacity-50">{issue.location}</div>
-                    </td>
-                    <td>{issue.category}</td>
-                    <td>
-                      <span
-                        className={`badge ${
-                          issue.status === "ongoing"
-                            ? "badge-warning"
-                            : "badge-success"
-                        }`}
-                      >
-                        {issue.status}
-                      </span>
-                    </td>
-                    <th className="flex gap-2">
-                      <button
-                        onClick={() => openUpdateModal(issue)}
-                        className="btn btn-ghost btn-xs"
-                      >
-                        <FaEdit size={16} />
-                      </button>
-                      <button
-                        onClick={() => handleDeleteIssue(issue._id)}
-                        className="btn btn-ghost btn-xs text-red-500"
-                      >
-                        <FaTrash size={16} />
-                      </button>
-                    </th>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {myIssues.map((issue) => (
+              <MyIssueCard
+                key={issue._id}
+                issue={issue}
+                onEdit={openUpdateModal}
+                onDelete={handleDeleteIssue}
+              />
+            ))}
           </div>
         ) : (
-          <div className="text-center py-10">
-            <p className="text-lg text-gray-500">
-              You have not reported any issues yet.
+          <div className="text-center py-16 bg-base-100 rounded-lg shadow-md">
+            <h3 className="text-2xl font-bold text-base-content">
+              No Issues Reported Yet
+            </h3>
+            <p className="text-base-content/70 mt-2">
+              It looks like you haven't reported any issues. Help us improve the
+              community by submitting one!
             </p>
           </div>
         )}
       </div>
 
-      {/* Render the modal component, passing the necessary props */}
-      <UpdateIssueModal
-        editingIssue={editingIssue}
-        onSuccess={handleUpdateSuccess}
-      />
+      {editingIssue && (
+        <UpdateIssueModal
+          editingIssue={editingIssue}
+          onSuccess={handleUpdateSuccess}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 };
