@@ -3,7 +3,8 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import { Link } from "react-router";
 
 const IssueCard = ({ issue }) => {
-  const { _id, title, description, category, location, image, status } = issue;
+  const { _id, title, description, category, location, image, status, amount } =
+    issue;
 
   const statusStyles = {
     ongoing: "badge-warning",
@@ -45,6 +46,10 @@ const IssueCard = ({ issue }) => {
             ? description.substring(0, 80) + "..."
             : description}
         </p>
+
+        <div className="mt-1">
+          <p className="text-xl font-bold text-gradient">${amount}</p>
+        </div>
 
         <div className="card-actions mt-4">
           <Link to={`/issue/${_id}`} className="btn btn-gradient w-full">

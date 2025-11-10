@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useMemo } from "react";
 import useAuth from "../hooks/useAuth";
 import Loader from "../components/Loader";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import useFetch from "../hooks/useFetch";
-import ContributionCard from "../components/ContributionCard";
 import useTitle from "../hooks/useTitle";
+import { FaDownload, FaThList } from "react-icons/fa";
 
 const MyContribution = () => {
   useTitle("My Contribution");
@@ -15,9 +15,13 @@ const MyContribution = () => {
   const endpoint = user?.email ? `/my-contributions?email=${user.email}` : null;
   const { data: myContributions, loading } = useFetch(endpoint);
 
+  const totalAmount = useMemo(() => {
+    if (!myContributions || myContributions.length === 0) return 0;
+    return myContributions.reduce((sum, c) => sum + c.amount, 0);
+  }, [myContributions]);
+
   // --- PDF Generation Function ---
   const handleDownloadReport = (contribution) => {
-
     const doc = new jsPDF();
 
     // --- Document Header ---
@@ -83,25 +87,86 @@ const MyContribution = () => {
         </div>
 
         {myContributions && myContributions.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {myContributions.map((c) => (
-              <ContributionCard
-                key={c._id}
-                contribution={c}
-                onDownload={handleDownloadReport}
-              />
-            ))}
-          </div>
+          <>
+            <div className="max-w-4xl mx-auto bg-base-100 p-4 rounded-lg flex justify-between items-center mb-6 shadow-md">
+              <span className="font-bold text-lg">Total Contributed:</span>
+              <span className="font-black text-2xl text-gradient">
+                ${totalAmount.toFixed(2)}
+              </span>
+            </div>
+
+            <div className="max-w-4xl mx-auto sm:overflow-x-auto sm:bg-base-100 sm:rounded-lg sm:shadow-md">
+              <table className="table w-full">
+                <thead className="hidden sm:table-header-group">
+                  <tr>
+                    <th>Issue Title</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+
+                <tbody className="flex flex-col gap-6 sm:table-row-group">
+                  {myContributions.map((c) => (
+                    <tr
+                      key={c._id}
+                      className="block sm:table-row bg-base-100 rounded-lg shadow-md sm:shadow-none"
+                    >
+                      <td className="block sm:table-cell p-4 align-middle">
+                        <div className="flex justify-between items-start mb-2 sm:mb-0">
+                          <div>
+                            <div className="font-bold text-base-content">
+                              {c.issueTitle}
+                            </div>
+                            <div className="text-sm text-base-content/70 sm:hidden">
+                              {new Date(c.date).toLocaleDateString()}
+                            </div>
+                          </div>
+                          <div className="font-bold text-lg text-gradient sm:hidden">
+                            ${c.amount}
+                          </div>
+                        </div>
+                        <div className="text-sm text-base-content/70 hidden sm:block">
+                          {new Date(c.date).toLocaleDateString()}
+                        </div>
+                      </td>
+
+                      <td className="block sm:table-cell p-4 align-middle">
+                        <div className="flex justify-between items-center sm:justify-start">
+                          <div className="flex items-center gap-2 sm:hidden text-base-content/60">
+                            <FaThList />
+                            <span className="font-semibold">Category</span>
+                          </div>
+                          <span>{c.category}</span>
+                        </div>
+                      </td>
+
+                      <td className="hidden sm:table-cell p-4 align-middle font-bold text-lg text-gradient">
+                        ${c.amount}
+                      </td>
+
+                      <td className="block sm:table-cell p-4 align-middle">
+                        <button
+                          onClick={() => handleDownloadReport(c)}
+                          className="btn btn-gradient btn-sm w-full sm:w-auto"
+                        >
+                          <FaDownload />
+                          <span className="sm:hidden ml-2">
+                            Download Receipt
+                          </span>
+                          <span className="hidden sm:inline ml-2">
+                            Download
+                          </span>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         ) : (
-          <div className="text-center py-16 bg-base-100 rounded-lg shadow-md">
-            <h3 className="text-2xl font-bold text-base-content">
-              No Contributions Yet
-            </h3>
-            <p className="text-base-content/70 mt-2 max-w-md mx-auto">
-              When you contribute to an issue, your history will appear here,
-              and you'll be able to download a receipt.
-            </p>
-          </div>
+          <div className="text-center py-16 bg-base-100 rounded-lg shadow-md"></div>
         )}
       </div>
     </div>
