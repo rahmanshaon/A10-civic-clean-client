@@ -4,38 +4,48 @@ import StatCard from "../../components/StatCard";
 
 const CommunityStats = () => {
   return (
-    <div className="container mx-auto my-12 px-4">
-      <div className="text-center mb-10">
-        <h2 className="text-3xl font-bold">Our Community Impact</h2>
-        <p className="text-base text-gray-500 mt-2">
-          Track our collective progress and see the difference we're making
-          together.
-        </p>
-      </div>
+    <div className="bg-base-200 py-16">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-gradient">
+            Our Community Impact
+          </h2>
+          <p className="text-base text-base-content text-opacity-70 mt-2 max-w-2xl mx-auto">
+            Track our collective progress and see the difference we're making
+            together.
+          </p>
+        </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        <StatCard
-          icon={<FaUsers />}
-          title="Registered Users"
-          value={31000}
-          change="↗︎ 400 (22%)"
-          gradientClass="bg-gradient-to-br from-blue-500 to-cyan-400"
-        />
-        <StatCard
-          icon={<FaCheckCircle />}
-          title="Issues Resolved"
-          value={4200}
-          change="↗︎ 40 (2%)"
-          gradientClass="bg-gradient-to-br from-green-500 to-emerald-400"
-        />
-        <StatCard
-          icon={<FaHourglassHalf />}
-          title="Pending Issues"
-          value={1200}
-          change="↘︎ 90 (14%)"
-          gradientClass="bg-gradient-to-br from-yellow-500 to-amber-400"
-        />
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <StatCard
+            data-aos="fade-up"
+            data-aos-delay="0"
+            icon={<FaUsers />}
+            title="Registered Users"
+            value={31000}
+            change="↗︎ 400 (22%)"
+            gradientClass="bg-gradient-to-br from-blue-500 to-cyan-400"
+          />
+          <StatCard
+            data-aos="fade-up"
+            data-aos-delay="150"
+            icon={<FaCheckCircle />}
+            title="Issues Resolved"
+            value={4200}
+            change="↗︎ 40 (2%)"
+            gradientClass="bg-gradient-to-br from-green-500 to-emerald-400"
+          />
+          <StatCard
+            data-aos="fade-up"
+            data-aos-delay="300"
+            icon={<FaHourglassHalf />}
+            title="Pending Issues"
+            value={1200}
+            change="↘︎ 90 (14%)"
+            gradientClass="bg-gradient-to-br from-yellow-500 to-amber-400"
+          />
+        </div>
       </div>
     </div>
   );

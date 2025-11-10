@@ -39,7 +39,7 @@ const Banner = () => {
   ];
 
   return (
-    <div className="mb-5">
+    <div>
       <Swiper
         effect={"fade"}
         fadeEffect={{ crossFade: true }}
