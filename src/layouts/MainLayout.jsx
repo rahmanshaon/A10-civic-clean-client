@@ -1,9 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
+import Loader from "../components/Loader";
 
 const MainLayout = () => {
+
+// --- Navigation Loading Logic ---
+  const location = useLocation();
+  const [navigating, setNavigating] = useState(false);
+
+  useEffect(() => {
+    setNavigating(true);
+    const timer = setTimeout(() => setNavigating(false), 500);
+    return () => clearTimeout(timer);
+  }, [location.pathname]); 
+
+  // --- Theme Toggling Logic ---
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   const handleToggle = (e) => {
@@ -25,7 +38,7 @@ const MainLayout = () => {
       <Navbar handleToggle={handleToggle} theme={theme} />
 
       <main className="flex-1">
-        <Outlet />
+        {navigating ? <Loader message="Loading page..." /> : <Outlet />}
       </main>
 
       <Footer />

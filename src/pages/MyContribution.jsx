@@ -4,6 +4,7 @@ import Loader from "../components/Loader";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import useFetch from "../hooks/useFetch";
+import ContributionCard from "../components/ContributionCard";
 
 const MyContribution = () => {
   const { user } = useAuth();
@@ -65,53 +66,38 @@ const MyContribution = () => {
     doc.save(`CivicClean-Receipt-${contribution._id}.pdf`);
   };
 
-  if (loading) return <Loader />;
+  if (loading) return <Loader message="Loading your contributions..." />;
 
   return (
-    <div className="bg-base-200 p-4 md:p-10 min-h-screen">
-      <div className="max-w-7xl mx-auto bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-3xl font-bold text-center mb-8">
-          My Contribution History
-        </h2>
+    <div className="bg-base-200 p-4 py-16 md:p-10 min-h-screen">
+      <div className="container mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-black text-gradient">
+            My Contribution History
+          </h2>
+          <p className="text-base text-base-content/70 mt-2">
+            A record of all the contributions you've made to help the community.
+          </p>
+        </div>
 
-        {myContributions.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="table w-full">
-              <thead>
-                <tr>
-                  <th>Issue Title</th>
-                  <th>Category</th>
-                  <th>Paid Amount</th>
-                  <th>Date</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {myContributions.map((c) => (
-                  <tr key={c._id}>
-                    <td>
-                      <div className="font-bold">{c.issueTitle}</div>
-                    </td>
-                    <td>{c.category}</td>
-                    <td>${c.amount}</td>
-                    <td>{new Date(c.date).toLocaleDateString()}</td>
-                    <th>
-                      <button
-                        onClick={() => handleDownloadReport(c)}
-                        className="btn btn-gradient btn-xs"
-                      >
-                        Download Report
-                      </button>
-                    </th>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {myContributions && myContributions.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {myContributions.map((c) => (
+              <ContributionCard
+                key={c._id}
+                contribution={c}
+                onDownload={handleDownloadReport}
+              />
+            ))}
           </div>
         ) : (
-          <div className="text-center py-10">
-            <p className="text-lg text-gray-500">
-              You have not made any contributions yet.
+          <div className="text-center py-16 bg-base-100 rounded-lg shadow-md">
+            <h3 className="text-2xl font-bold text-base-content">
+              No Contributions Yet
+            </h3>
+            <p className="text-base-content/70 mt-2 max-w-md mx-auto">
+              When you contribute to an issue, your history will appear here,
+              and you'll be able to download a receipt.
             </p>
           </div>
         )}

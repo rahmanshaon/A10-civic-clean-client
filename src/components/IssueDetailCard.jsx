@@ -84,7 +84,7 @@ const IssueDetailCard = ({ issue }) => {
             <h3 className="text-sm font-semibold text-base-content/70 uppercase tracking-wider mb-2">
               Suggested Budget
             </h3>
-            <p className="font-black text-accent text-3xl">${amount}</p>
+            <p className="font-black text-gradient text-3xl">${amount}</p>
           </div>
         </div>
       </div>

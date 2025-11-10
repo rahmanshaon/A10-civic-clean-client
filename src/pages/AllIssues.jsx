@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Loader from "../components/Loader";
 import IssueCard from "../components/IssueCard";
 import useFetch from "../hooks/useFetch";
@@ -7,26 +7,40 @@ import { FaExclamationCircle, FaSearch } from "react-icons/fa";
 const AllIssues = () => {
   const { data: issues, loading, error } = useFetch("/issues");
 
+  // State for filters and search
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredIssues = useMemo(() => {
-    if (!issues) return [];
+  // State for currently displayed issues and filtering loading state
+  const [displayedIssues, setDisplayedIssues] = useState([]);
+  const [isFiltering, setIsFiltering] = useState(false);
 
-    const lowercasedQuery = searchQuery.trim().toLowerCase();
+  // useEffect to handle filtering with a loading state
+  useEffect(() => {
+    if (!issues) return;
 
-    return issues.filter((issue) => {
-      const categoryMatch =
-        categoryFilter === "All" || issue.category === categoryFilter;
-      const statusMatch =
-        statusFilter === "All" || issue.status === statusFilter;
-      const searchMatch =
-        lowercasedQuery === "" ||
-        issue.title.toLowerCase().includes(lowercasedQuery);
+    setIsFiltering(true);
 
-      return categoryMatch && statusMatch && searchMatch;
-    });
+    const timer = setTimeout(() => {
+      const lowercasedQuery = searchQuery.trim().toLowerCase();
+
+      const filtered = issues.filter((issue) => {
+        const categoryMatch =
+          categoryFilter === "All" || issue.category === categoryFilter;
+        const statusMatch =
+          statusFilter === "All" || issue.status === statusFilter;
+        const searchMatch =
+          lowercasedQuery === "" ||
+          issue.title.toLowerCase().includes(lowercasedQuery);
+        return categoryMatch && statusMatch && searchMatch;
+      });
+
+      setDisplayedIssues(filtered);
+      setIsFiltering(false);
+    }, 300);
+
+    return () => clearTimeout(timer);
   }, [issues, categoryFilter, statusFilter, searchQuery]);
 
   if (loading) {
@@ -43,7 +57,7 @@ const AllIssues = () => {
   const NotFoundMessage = ({ message, query }) => (
     <div className="col-span-full flex flex-col items-center justify-center py-16 text-center">
       <FaExclamationCircle className="text-6xl text-base-content/30 mb-4" />
-      <h3 className="text-2xl font-bold text-base-content">{message}</h3>
+      <h3 className="text-2xl font-bold text-base-content/80">{message}</h3>
       {query && (
         <p className="text-base-content/70 mt-2">
           We couldn't find anything for "{query}".
@@ -76,7 +90,7 @@ const AllIssues = () => {
                 <FaSearch className="absolute top-1/2 left-3 -translate-y-1/2 text-base-content/40 z-10" />
                 <input
                   type="text"
-                  placeholder="Search issues"
+                  placeholder="Search issues..."
                   className="input input-bordered w-full pl-10"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -84,7 +98,6 @@ const AllIssues = () => {
               </div>
             </div>
 
-            {/* Category Filter */}
             <div className="form-control w-full">
               <label className="label">
                 <span className="label-text mb-2">Filter by Category</span>
@@ -102,7 +115,6 @@ const AllIssues = () => {
               </select>
             </div>
 
-            {/* Status Filter */}
             <div className="form-control w-full">
               <label className="label">
                 <span className="label-text mb-2">Filter by Status</span>
@@ -120,17 +132,29 @@ const AllIssues = () => {
           </div>
         </div>
 
-        {/* --- Display the filtered issues --- */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {filteredIssues.length > 0 ? (
-            filteredIssues.map((issue) => (
-              <IssueCard key={issue._id} issue={issue} />
-            ))
-          ) : searchQuery ? (
-            <NotFoundMessage message="No Issues Found" query={searchQuery} />
-          ) : (
-            <NotFoundMessage message="No issues found matching your selected filters." />
+        <div className="relative">
+          {isFiltering && (
+            <div className="absolute inset-0 bg-base-200/50 backdrop-blur-sm flex justify-center items-center z-20 rounded-lg min-h-[300px]">
+              <Loader message="Filtering..." />
+            </div>
           )}
+
+          {/* --- Display the filtered issues --- */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            {displayedIssues.length > 0
+              ? displayedIssues.map((issue) => (
+                  <IssueCard key={issue._id} issue={issue} />
+                ))
+              : !loading &&
+                (searchQuery ? (
+                  <NotFoundMessage
+                    message="No Issues Found"
+                    query={searchQuery}
+                  />
+                ) : (
+                  <NotFoundMessage message="No issues found matching your selected filters." />
+                ))}
+          </div>
         </div>
       </div>
     </div>
