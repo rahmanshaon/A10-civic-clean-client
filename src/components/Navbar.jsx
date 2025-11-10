@@ -39,20 +39,47 @@ const Navbar = ({ handleToggle, theme }) => {
   const finalLinks = user ? [...links, ...userLinks] : links;
 
   return (
-    <div className="bg-base-100 shadow-sm sticky top-0 z-50">
+     <div className="bg-base-100 shadow-sm sticky top-0 z-50">
       <nav className="navbar container mx-auto px-4">
-        {/* Left Side: Logo */}
+        {/* Left Side: Logo & Mobile Dropdown */}
         <div className="navbar-start">
-          {/* Mobile Dropdown Menu */}
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
               <HiMenu className="h-6 w-6" />
             </label>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-1 p-2 shadow bg-base-100 rounded-box w-52 space-y-2"
+              className="menu menu-sm dropdown-content mt-3 z-1 p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <CustomNavLink links={finalLinks} variant="gradient" />
+
+              {/* Mobile Menu Links */}
+              <CustomNavLink links={finalLinks} />
+              <div className="divider my-2"></div>
+
+              {/* Mobile Menu User Actions */}
+              {user ? (
+                <li>
+                  <button
+                    onClick={handleLogout}
+                    className="btn btn-sm btn-gradient text-white"
+                  >
+                    Logout
+                  </button>
+                </li>
+              ) : (
+                <>
+                  <li>
+                    <NavLink to="/login" className="btn btn-sm btn-gradient mb-2">
+                      Login
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/register" className="btn btn-sm btn-gradient">
+                      Register
+                    </NavLink>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
 
@@ -65,17 +92,18 @@ const Navbar = ({ handleToggle, theme }) => {
           </Link>
         </div>
 
-        {/* Center Navbar */}
+        {/* Center: Desktop Menu */}
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 space-x-6">
-            <CustomNavLink links={finalLinks} variant="gradient" />
+          <ul className="menu menu-horizontal px-1 space-x-2">
+            <CustomNavLink links={finalLinks} />
           </ul>
         </div>
 
-        {/* Right side (Login / User) */}
+        {/* Right Side: Theme Toggle & User Info */}
         <div className="navbar-end">
-          {/* --- Theme Toggle Switch --- */}
-          <label className="swap swap-rotate mr-4">
+
+          {/* Theme Toggle */}
+          <label className="swap swap-rotate mr-2 md:mr-4">
             <input
               type="checkbox"
               onChange={handleToggle}
@@ -85,68 +113,47 @@ const Navbar = ({ handleToggle, theme }) => {
             <FaMoon className="swap-off fill-current w-6 h-6" />
           </label>
 
+          {/* Loading or User/Guest Actions */}
           {loading ? (
-            <span className="loading loading-bars loading-sm text-blue-500"></span>
+            <span className="loading loading-bars text-blue-500"></span>
           ) : user ? (
-            <>
-              {/* Desktop: Avatar + Logout button */}
-              <div className="hidden md:flex items-center gap-4">
+            // Desktop User Info Dropdown
+            <div className="dropdown dropdown-end">
+              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                 <div
-                  className="w-16 h-16 rounded-full ring ring-blue-500 ring-offset-base-100 ring-offset-2 overflow-hidden"
+                  className="w-10 rounded-full ring ring-blue-500 ring-offset-base-100 ring-offset-2"
                   title={user.displayName || "User"}
                 >
                   <img
-                    src={
-                      user.photoURL || "https://i.ibb.co.com/wZQG7SwS/user.png"
-                    }
-                    alt={user.displayName}
-                    className="w-full h-full object-cover"
+                    src={user.photoURL || "https://i.ibb.co/wZQG7SwS/user.png"}
+                    alt="User"
                   />
                 </div>
-                <button
-                  onClick={handleLogout}
-                  className="btn btn-gradient text-white font-semibold text-lg"
-                >
-                  Logout
-                </button>
-              </div>
-
-              {/* Mobile: Avatar with dropdown */}
-              <div className="dropdown dropdown-end md:hidden">
-                <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                  <div
-                    className="w-10 rounded-full ring ring-blue-500 ring-offset-base-100 ring-offset-2 overflow-hidden"
-                    title={user.displayName || "User"}
+              </label>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content mt-3 z-1 p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li className="p-2">
+                  <p className="font-bold">{user.displayName}</p>
+                </li>
+                <div className="divider my-0"></div>
+                <li>
+                  <button
+                    onClick={handleLogout}
+                    className="btn btn-gradient text-white"
                   >
-                    <img
-                      src={
-                        user.photoURL ||
-                        "https://i.ibb.co.com/wZQG7SwS/user.png"
-                      }
-                      alt={user.displayName}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </label>
-                <ul
-                  tabIndex={0}
-                  className="menu menu-sm dropdown-content mt-3 z-1 p-2 shadow bg-base-100 rounded-box w-52"
-                >
-                  <li>
-                    {/* Attach the logout handler to the button */}
-                    <button onClick={handleLogout} className="btn btn-gradient">
-                      Logout
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            </>
+                    Logout
+                  </button>
+                </li>
+              </ul>
+            </div>
           ) : (
-            // If no user, show Login and Register buttons
-            <>
+            // Desktop Login/Register Buttons
+            <div className="hidden md:flex gap-2">
               <NavLink
                 to="/login"
-                className="btn btn-gradient font-semibold text-lg mr-3"
+                className="btn btn-gradient font-semibold text-lg"
               >
                 Login
               </NavLink>
@@ -156,7 +163,7 @@ const Navbar = ({ handleToggle, theme }) => {
               >
                 Register
               </NavLink>
-            </>
+            </div>
           )}
         </div>
       </nav>
