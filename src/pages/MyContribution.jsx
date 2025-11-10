@@ -5,8 +5,11 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import useFetch from "../hooks/useFetch";
 import ContributionCard from "../components/ContributionCard";
+import useTitle from "../hooks/useTitle";
 
 const MyContribution = () => {
+  useTitle("My Contribution");
+
   const { user } = useAuth();
 
   const endpoint = user?.email ? `/my-contributions?email=${user.email}` : null;

@@ -7,8 +7,11 @@ import UpdateIssueModal from "../components/UpdateIssueModal";
 import { toast } from "react-toastify";
 import axiosSecure from "../api/axiosSecure";
 import MyIssueCard from "../components/MyIssueCard";
+import useTitle from "../hooks/useTitle";
 
 const MyIssues = () => {
+  useTitle("My Issues");
+
   const { user } = useAuth();
   const endpoint = user?.email ? `/my-issues?email=${user.email}` : null;
   const {

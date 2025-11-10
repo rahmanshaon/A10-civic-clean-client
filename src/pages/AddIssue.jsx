@@ -10,8 +10,11 @@ import {
   FaPaperPlane,
   FaTh,
 } from "react-icons/fa";
+import useTitle from "../hooks/useTitle";
 
 const AddIssue = () => {
+  useTitle("Add Issues");
+
   const { user } = useAuth();
   const navigate = useNavigate();
 

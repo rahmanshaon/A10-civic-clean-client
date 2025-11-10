@@ -3,8 +3,11 @@ import Loader from "../components/Loader";
 import IssueCard from "../components/IssueCard";
 import useFetch from "../hooks/useFetch";
 import { FaExclamationCircle, FaSearch } from "react-icons/fa";
+import useTitle from "../hooks/useTitle";
 
 const AllIssues = () => {
+  useTitle("All Issues");
+
   const { data: issues, loading, error } = useFetch("/issues");
 
   // State for filters and search

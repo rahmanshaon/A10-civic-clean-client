@@ -9,8 +9,11 @@ import axiosSecure from "../api/axiosSecure";
 import ContributorsSection from "../components/ContributorsSection";
 import { toast } from "react-toastify";
 import IssueDetailCard from "../components/IssueDetailCard";
+import useTitle from "../hooks/useTitle";
 
 const IssueDetails = () => {
+  useTitle("Issue Details");
+
   const { issueId } = useParams();
   const { user } = useAuth();
   const { data: issue, loading, error } = useFetch(`/issues/${issueId}`);
