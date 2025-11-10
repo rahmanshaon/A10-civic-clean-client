@@ -6,7 +6,7 @@ const VolunteerCTA = () => {
       <div
         className="container mx-auto relative mt-12 bg-cover bg-center rounded-xl overflow-hidden px-6 py-12 sm:py-16 md:py-20"
         style={{
-          backgroundImage: "url('https://i.ibb.co/VYdCHSCW/clean.png')",
+          backgroundImage: "url('https://i.ibb.co.com/q3n12sGy/civic-clean.jpg')",
         }}
       >
         <div className="absolute inset-0 bg-black/70"></div>

@@ -109,8 +109,8 @@ const Navbar = ({ handleToggle, theme }) => {
               onChange={handleToggle}
               checked={theme === "dark"}
             />
-            <FaSun className="swap-on fill-current w-6 h-6" />
-            <FaMoon className="swap-off fill-current w-6 h-6" />
+            <FaSun className="swap-on fill-current w-6 h-6 text-blue-500" />
+            <FaMoon className="swap-off fill-current w-6 h-6 text-blue-500" />
           </label>
 
           {/* Loading or User/Guest Actions */}
