@@ -14,7 +14,7 @@ const Home = () => {
       <CategorySection />
       <RecentComplaints />
       <VolunteerCTA />
-      <NewsletterCTA/>
+      <NewsletterCTA />
     </div>
   );
 };

@@ -14,14 +14,14 @@ const RecentComplaints = () => {
           <h2 className="text-4xl font-black text-gradient">
             Recent Complaints
           </h2>
-          <p className="text-base text-base-content text-opacity-70 mt-2 max-w-2xl mx-auto">
+          <p className="text-base text-base-content/80 text-opacity-70 mt-2 max-w-2xl mx-auto">
             Here are some of the latest issues reported by the community.
           </p>
         </div>
 
         {/* Issues Card Grid */}
         {loading ? (
-          <Loader />
+          <Loader message="Loading recent issues..." />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {issues.map((issue) => (

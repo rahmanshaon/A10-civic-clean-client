@@ -31,7 +31,7 @@ const CategorySection = () => {
           <h2 className="text-3xl md:text-4xl font-black text-gradient">
             Issue Categories
           </h2>
-          <p className="text-base text-base-content text-opacity-70 mt-2 max-w-2xl mx-auto">
+          <p className="text-base text-base-content/80 text-opacity-70 mt-2 max-w-2xl mx-auto">
             Report issues across a variety of categories to help us keep our
             community clean and safe.
           </p>
