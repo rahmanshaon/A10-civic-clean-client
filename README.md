@@ -4,6 +4,12 @@ CivicClean is a full-stack MERN application to empower communities by providing 
 
 ---
 
+## Live Demo
+
+**Live Website:** https://civic-clean.netlify.app/
+
+---
+
 ## Key Features
 
 ### Core Functionality
