@@ -49,10 +49,10 @@ const ContributionModal = ({ issue, user, onSuccess }) => {
           </button>
         </form>
 
-        <h3 className="font-bold text-xl text-gray-800">
+        <h3 className="font-bold text-xl text-base-content">
           Contribute to: <span className="text-gradient">{issue?.title}</span>
         </h3>
-        <p className="py-2 text-sm text-gray-500">
+        <p className="py-2 text-sm text-base-content/70">
           Your support helps get this issue resolved faster.
         </p>
 
@@ -69,7 +69,7 @@ const ContributionModal = ({ issue, user, onSuccess }) => {
               type="text"
               value={user?.displayName || "N/A"}
               readOnly
-              className="input input-bordered bg-gray-100 cursor-not-allowed"
+              className="input input-bordered cursor-not-allowed"
             />
           </div>
 
@@ -82,7 +82,7 @@ const ContributionModal = ({ issue, user, onSuccess }) => {
               type="email"
               value={user?.email}
               readOnly
-              className="input input-bordered bg-gray-100 cursor-not-allowed"
+              className="input input-bordered cursor-not-allowed"
             />
           </div>
 
@@ -137,6 +137,9 @@ const ContributionModal = ({ issue, user, onSuccess }) => {
           </div>
         </form>
       </div>
+      <form method="dialog" className="modal-backdrop">
+        <button>close</button>
+      </form>
     </dialog>
   );
 };
